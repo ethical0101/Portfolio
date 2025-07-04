@@ -26,9 +26,12 @@ const Hero: React.FC = () => {
   ];
 
   const handleDownloadCV = () => {
+    const cvFilename = import.meta.env.VITE_CV_FILENAME || 'kommi-druthendra-cv.pdf';
+    const portfolioName = import.meta.env.VITE_PORTFOLIO_NAME || 'Kommi Druthendra';
+
     const link = document.createElement('a');
-    link.href = '/cv/kommi-druthendra-cv.pdf';
-    link.download = 'Kommi-Druthendra-CV.pdf';
+    link.href = `/cv/${cvFilename}`;
+    link.download = `${portfolioName.replace(/\s+/g, '-')}-CV.pdf`;
     link.click();
   };
 
