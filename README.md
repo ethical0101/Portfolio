@@ -2,7 +2,7 @@
 
 **Frontend & Full Stack Developer** passionate about creating beautiful, high-performance web applications with cutting-edge technology. I transform ideas into seamless digital experiences.
 
-![Portfolio Preview](https://via.placeholder.com/1200x600/6366f1/ffffff?text=Kommi+Druthendra+Portfolio)
+[Portfolio Preview](https://portfolio-phi-nine-70.vercel.app/)
 
 ## 🚀 About Me
 
