@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Mail, Phone, MapPin, Send, Github, Linkedin, Instagram, Twitter } from 'lucide-react';
+import { useInView } from 'react-intersection-observer';
 import emailjs from 'emailjs-com';
 
 const Contact: React.FC = () => {
@@ -11,6 +12,24 @@ const Contact: React.FC = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Intersection observer for animations
+  const { ref, inView } = useInView({
+    threshold: 0.1,
+    triggerOnce: true
+  });
+
+  // Optimize window resize checking - only check once and on resize
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
@@ -81,25 +100,25 @@ const Contact: React.FC = () => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.1,
+        staggerChildren: 0.05, // Reduced from 0.1 for better performance
       },
     },
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
+    hidden: { opacity: 0, y: 20 }, // Reduced from y: 30
     visible: {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.6,
+        duration: 0.4, // Reduced from 0.6 for better performance
       },
     },
   };
 
   return (
-    <section id="contact" className="py-12 sm:py-16 md:py-20 relative">
-      <div className="container mx-auto px-4 sm:px-6">
+    <section id="contact" className="py-20 relative gpu-accelerated will-change-transform" ref={ref}>
+      <div className="container mx-auto px-6">
         <motion.div
           initial="hidden"
           whileInView="visible"
@@ -107,21 +126,21 @@ const Contact: React.FC = () => {
           variants={containerVariants}
           className="max-w-6xl mx-auto"
         >
-          <motion.div variants={itemVariants} className="text-center mb-12 md:mb-16">
-            <h2 className="font-space-grotesk text-3xl sm:text-4xl md:text-5xl font-bold mb-4 md:mb-6 text-shadow">
+          <motion.div variants={itemVariants} className="mb-12 text-center md:mb-16">
+            <h2 className="mb-4 text-3xl font-bold font-space-grotesk sm:text-4xl md:text-5xl md:mb-6 text-shadow">
               <span style={{ color: 'var(--text-primary)' }}>Let's Work Together</span>
             </h2>
-            <p className="text-base md:text-lg max-w-3xl mx-auto leading-relaxed px-4" style={{ color: 'var(--text-secondary)' }}>
+            <p className="max-w-3xl px-4 mx-auto text-base leading-relaxed md:text-lg" style={{ color: 'var(--text-secondary)' }}>
               Ready to bring your ideas to life? I'm always excited to discuss new projects
               and opportunities. Let's create something amazing together.
             </p>
           </motion.div>
 
-          <div className="grid lg:grid-cols-2 gap-8 md:gap-12">
+          <div className="grid gap-8 lg:grid-cols-2 md:gap-12">
             {/* Contact Info */}
             <motion.div variants={itemVariants} className="space-y-6 md:space-y-8">
-              <div className="glassmorphism p-6 md:p-8 rounded-2xl hover-lift">
-                <h3 className="font-space-grotesk text-xl md:text-2xl font-bold mb-4 md:mb-6" style={{ color: 'var(--text-primary)' }}>
+              <div className="p-6 glassmorphism md:p-8 rounded-2xl hover-lift">
+                <h3 className="mb-4 text-xl font-bold font-space-grotesk md:text-2xl md:mb-6" style={{ color: 'var(--text-primary)' }}>
                   Get In Touch
                 </h3>
                 <div className="space-y-4 md:space-y-6">
@@ -131,14 +150,14 @@ const Contact: React.FC = () => {
                       variants={itemVariants}
                       className="flex items-center space-x-3 md:space-x-4"
                     >
-                      <div className="p-2 md:p-3 rounded-full flex-shrink-0" style={{ backgroundColor: 'var(--text-primary)' }}>
-                        <info.icon size={window.innerWidth < 768 ? 18 : 20} style={{ color: 'var(--bg-primary)' }} />
+                      <div className="flex-shrink-0 p-2 rounded-full md:p-3" style={{ backgroundColor: 'var(--text-primary)' }}>
+                        <info.icon size={isMobile ? 18 : 20} style={{ color: 'var(--bg-primary)' }} />
                       </div>
-                      <div className="min-w-0 flex-1">
-                        <h4 className="font-semibold text-sm md:text-base" style={{ color: 'var(--text-primary)' }}>{info.title}</h4>
+                      <div className="flex-1 min-w-0">
+                        <h4 className="text-sm font-semibold md:text-base" style={{ color: 'var(--text-primary)' }}>{info.title}</h4>
                         <a
                           href={info.href}
-                          className="transition-colors magnetic text-sm md:text-base break-all"
+                          className="text-sm break-all transition-colors magnetic md:text-base"
                           style={{ color: 'var(--text-secondary)' }}
                         >
                           {info.value}
@@ -149,8 +168,8 @@ const Contact: React.FC = () => {
                 </div>
               </div>
 
-              <motion.div variants={itemVariants} className="glassmorphism p-6 md:p-8 rounded-2xl hover-lift">
-                <h3 className="font-space-grotesk text-xl md:text-2xl font-bold mb-4 md:mb-6" style={{ color: 'var(--text-primary)' }}>
+              <motion.div variants={itemVariants} className="p-6 glassmorphism md:p-8 rounded-2xl hover-lift">
+                <h3 className="mb-4 text-xl font-bold font-space-grotesk md:text-2xl md:mb-6" style={{ color: 'var(--text-primary)' }}>
                   Follow Me
                 </h3>
                 <div className="flex flex-wrap gap-3 md:gap-4">
@@ -162,10 +181,10 @@ const Contact: React.FC = () => {
                       rel="noopener noreferrer"
                       variants={itemVariants}
                       whileHover={{ scale: 1.1 }}
-                      className="glassmorphism p-3 rounded-full hover-lift magnetic"
+                      className="p-3 rounded-full glassmorphism hover-lift magnetic"
                       aria-label={social.label}
                     >
-                      <social.icon size={window.innerWidth < 768 ? 20 : 24} style={{ color: 'var(--text-primary)' }} />
+                      <social.icon size={isMobile ? 20 : 24} style={{ color: 'var(--text-primary)' }} />
                     </motion.a>
                   ))}
                 </div>
@@ -173,13 +192,13 @@ const Contact: React.FC = () => {
             </motion.div>
 
             {/* Contact Form */}
-            <motion.div variants={itemVariants} className="glassmorphism p-6 md:p-8 rounded-2xl hover-lift">
-              <h3 className="font-space-grotesk text-xl md:text-2xl font-bold mb-4 md:mb-6" style={{ color: 'var(--text-primary)' }}>
+            <motion.div variants={itemVariants} className="p-6 glassmorphism md:p-8 rounded-2xl hover-lift">
+              <h3 className="mb-4 text-xl font-bold font-space-grotesk md:text-2xl md:mb-6" style={{ color: 'var(--text-primary)' }}>
                 Send Message
               </h3>
               <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
                 <div>
-                  <label htmlFor="name" className="block font-medium mb-2 text-sm md:text-base" style={{ color: 'var(--text-primary)' }}>
+                  <label htmlFor="name" className="block mb-2 text-sm font-medium md:text-base" style={{ color: 'var(--text-primary)' }}>
                     Name
                   </label>
                   <input
@@ -189,7 +208,7 @@ const Contact: React.FC = () => {
                     value={formData.name}
                     onChange={handleChange}
                     required
-                    className="w-full px-3 md:px-4 py-2 md:py-3 rounded-lg border transition-all duration-200 focus:outline-none focus:ring-2 magnetic text-sm md:text-base"
+                    className="w-full px-3 py-2 text-sm transition-all duration-200 border rounded-lg md:px-4 md:py-3 focus:outline-none focus:ring-2 magnetic md:text-base"
                     style={{
                       backgroundColor: 'var(--bg-secondary)',
                       borderColor: 'var(--border-color)',
@@ -200,7 +219,7 @@ const Contact: React.FC = () => {
                 </div>
 
                 <div>
-                  <label htmlFor="email" className="block font-medium mb-2 text-sm md:text-base" style={{ color: 'var(--text-primary)' }}>
+                  <label htmlFor="email" className="block mb-2 text-sm font-medium md:text-base" style={{ color: 'var(--text-primary)' }}>
                     Email
                   </label>
                   <input
@@ -210,7 +229,7 @@ const Contact: React.FC = () => {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="w-full px-3 md:px-4 py-2 md:py-3 rounded-lg border transition-all duration-200 focus:outline-none focus:ring-2 magnetic text-sm md:text-base"
+                    className="w-full px-3 py-2 text-sm transition-all duration-200 border rounded-lg md:px-4 md:py-3 focus:outline-none focus:ring-2 magnetic md:text-base"
                     style={{
                       backgroundColor: 'var(--bg-secondary)',
                       borderColor: 'var(--border-color)',
@@ -221,7 +240,7 @@ const Contact: React.FC = () => {
                 </div>
 
                 <div>
-                  <label htmlFor="message" className="block font-medium mb-2 text-sm md:text-base" style={{ color: 'var(--text-primary)' }}>
+                  <label htmlFor="message" className="block mb-2 text-sm font-medium md:text-base" style={{ color: 'var(--text-primary)' }}>
                     Message
                   </label>
                   <textarea
@@ -230,8 +249,8 @@ const Contact: React.FC = () => {
                     value={formData.message}
                     onChange={handleChange}
                     required
-                    rows={window.innerWidth < 768 ? 4 : 5}
-                    className="w-full px-3 md:px-4 py-2 md:py-3 rounded-lg border transition-all duration-200 focus:outline-none focus:ring-2 resize-vertical magnetic text-sm md:text-base"
+                    rows={isMobile ? 4 : 5}
+                    className="w-full px-3 py-2 text-sm transition-all duration-200 border rounded-lg md:px-4 md:py-3 focus:outline-none focus:ring-2 resize-vertical magnetic md:text-base"
                     style={{
                       backgroundColor: 'var(--bg-secondary)',
                       borderColor: 'var(--border-color)',
@@ -246,13 +265,13 @@ const Contact: React.FC = () => {
                   disabled={isSubmitting}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="w-full btn-primary py-2 md:py-3 rounded-lg font-semibold hover-lift magnetic flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed text-sm md:text-base"
+                  className="flex items-center justify-center w-full py-2 space-x-2 text-sm font-semibold rounded-lg btn-primary md:py-3 hover-lift magnetic disabled:opacity-50 disabled:cursor-not-allowed md:text-base"
                 >
                   {isSubmitting ? (
-                    <div className="w-4 h-4 md:w-5 md:h-5 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                    <div className="w-4 h-4 border-2 border-current rounded-full md:w-5 md:h-5 border-t-transparent animate-spin" />
                   ) : (
                     <>
-                      <Send size={window.innerWidth < 768 ? 18 : 20} />
+                      <Send size={isMobile ? 18 : 20} />
                       <span>Send Message</span>
                     </>
                   )}
@@ -262,7 +281,7 @@ const Contact: React.FC = () => {
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="text-green-500 text-center font-medium text-sm md:text-base"
+                    className="text-sm font-medium text-center text-green-500 md:text-base"
                   >
                     Message sent successfully! I'll get back to you soon.
                   </motion.div>
@@ -272,7 +291,7 @@ const Contact: React.FC = () => {
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="text-red-500 text-center font-medium text-sm md:text-base"
+                    className="text-sm font-medium text-center text-red-500 md:text-base"
                   >
                     Sorry, there was an error sending your message. Please try again.
                   </motion.div>

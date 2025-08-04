@@ -36,6 +36,7 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 80px; /* Optimize scrolling offset */
 }
 
 body {
@@ -44,20 +45,49 @@ body {
   color: var(--text-primary);
   transition: background-color 0.3s ease, color 0.3s ease;
   overflow-x: hidden;
+  cursor: default !important; /* Show default cursor for all users */
+
+  /* Ultra-smooth scrolling optimizations */
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
-/* Hide default cursor only on desktop for custom cursor */
-@media (min-width: 769px) {
-  body {
-    cursor: none;
-  }
+/* Enhanced performance optimizations for ultra-smooth scrolling */
+* {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeSpeed;
 }
 
-/* Show default cursor for reduced motion users and mobile */
-@media (prefers-reduced-motion: reduce), (max-width: 768px) {
-  body {
-    cursor: default !important;
-  }
+/* Optimize all animated elements */
+.gpu-accelerated {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+  will-change: transform;
+}
+
+.will-change-transform {
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+.will-change-opacity {
+  will-change: opacity;
+}
+
+/* Smooth scroll container optimizations */
+.smooth-scroll {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Prevent layout shifts during animations */
+.prevent-layout-shift {
+  contain: layout style paint;
 }
 
 .font-space-grotesk {
@@ -219,13 +249,13 @@ body {
   background: rgba(255, 255, 255, 0.03);
   backdrop-filter: blur(25px);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 
+  box-shadow:
     0 8px 32px rgba(0, 0, 0, 0.3),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 [data-theme="dark"] .hover-lift:hover {
-  box-shadow: 
+  box-shadow:
     0 20px 40px rgba(255, 255, 255, 0.15),
     0 0 0 1px rgba(255, 255, 255, 0.1);
 }
@@ -247,28 +277,28 @@ body {
     padding-left: 1rem;
     padding-right: 1rem;
   }
-  
+
   .profile-glow {
     width: 120px !important;
     height: 120px !important;
   }
-  
+
   .hover-lift:hover {
     transform: translateY(-4px);
   }
-  
+
   .magnetic:hover {
     transform: scale(1.02);
   }
-  
+
   .glassmorphism {
     padding: 1rem;
   }
-  
+
   .text-4xl {
     font-size: 2rem;
   }
-  
+
   .text-5xl {
     font-size: 2.5rem;
   }
@@ -279,23 +309,23 @@ body {
     width: 100px !important;
     height: 100px !important;
   }
-  
+
   .text-3xl {
     font-size: 1.5rem;
   }
-  
+
   .text-4xl {
     font-size: 1.75rem;
   }
-  
+
   .glassmorphism {
     padding: 0.75rem;
   }
-  
+
   .space-y-6 > * + * {
     margin-top: 1rem;
   }
-  
+
   .space-y-8 > * + * {
     margin-top: 1.5rem;
   }
@@ -310,15 +340,15 @@ body {
     animation: none;
     transition: none;
   }
-  
+
   .hover-lift:hover {
     transform: none;
   }
-  
+
   .magnetic:hover {
     transform: none;
   }
-  
+
   * {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
@@ -359,7 +389,7 @@ body {
   .glassmorphism {
     background: rgba(255, 255, 255, 0.9);
   }
-  
+
   [data-theme="dark"] .glassmorphism {
     background: rgba(0, 0, 0, 0.9);
   }

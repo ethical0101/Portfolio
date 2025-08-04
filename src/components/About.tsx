@@ -30,26 +30,25 @@ const About: React.FC = () => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.1,
+        staggerChildren: 0.05, // Faster stagger for smoother scrolling
       },
     },
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
+    hidden: { opacity: 0, y: 20 }, // Reduced movement
     visible: {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.6,
-        type: "spring",
-        stiffness: 100
+        duration: 0.4, // Faster animation
+        ease: "easeOut" // Simpler easing
       },
     },
   };
 
   return (
-    <section id="about" className="py-20 relative" ref={ref}>
+    <section id="about" className="py-20 relative gpu-accelerated will-change-transform" ref={ref}>
       <div className="container mx-auto px-6">
         <motion.div
           initial="hidden"
@@ -58,11 +57,11 @@ const About: React.FC = () => {
           className="max-w-6xl mx-auto"
         >
           {/* Title */}
-          <motion.div 
-            variants={itemVariants} 
+          <motion.div
+            variants={itemVariants}
             className="text-center mb-16"
           >
-            <motion.h2 
+            <motion.h2
               className="font-space-grotesk text-4xl md:text-5xl font-bold mb-6 text-shadow"
               style={{ color: 'var(--text-primary)' }}
               whileHover={{ scale: 1.02 }}
@@ -70,7 +69,7 @@ const About: React.FC = () => {
             >
               About Me
             </motion.h2>
-            <motion.p 
+            <motion.p
               className="text-lg max-w-3xl mx-auto leading-relaxed"
               style={{ color: 'var(--text-secondary)' }}
               whileHover={{ scale: 1.01 }}
@@ -83,7 +82,7 @@ const About: React.FC = () => {
           <div className="grid lg:grid-cols-2 gap-12 items-start mb-16">
             {/* Contact Info */}
             <motion.div variants={itemVariants} className="space-y-8">
-              <motion.div 
+              <motion.div
                 className="glassmorphism p-8 rounded-2xl hover-lift"
                 whileHover={{ scale: 1.02 }}
               >
@@ -105,7 +104,7 @@ const About: React.FC = () => {
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: index * 0.1 }}
                     >
-                      <motion.div 
+                      <motion.div
                         className="p-2 rounded-full"
                         style={{ backgroundColor: 'var(--text-primary)' }}
                         whileHover={{ scale: 1.1 }}
@@ -125,7 +124,7 @@ const About: React.FC = () => {
 
             {/* Bio */}
             <motion.div variants={itemVariants} className="space-y-8">
-              <motion.div 
+              <motion.div
                 className="glassmorphism p-8 rounded-2xl hover-lift"
                 whileHover={{ scale: 1.02 }}
               >
@@ -138,8 +137,8 @@ const About: React.FC = () => {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.2 }}
                   >
-                    My journey in programming started with curiosity and has evolved into a deep passion 
-                    for solving complex problems through elegant code. I specialize in creating seamless 
+                    My journey in programming started with curiosity and has evolved into a deep passion
+                    for solving complex problems through elegant code. I specialize in creating seamless
                     user experiences that combine beautiful design with robust functionality.
                   </motion.p>
                   <motion.p
@@ -147,8 +146,8 @@ const About: React.FC = () => {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.4 }}
                   >
-                    With expertise spanning both frontend and backend development, I enjoy working on 
-                    projects that challenge me to learn new technologies and push the boundaries of 
+                    With expertise spanning both frontend and backend development, I enjoy working on
+                    projects that challenge me to learn new technologies and push the boundaries of
                     what's possible on the web.
                   </motion.p>
                   <motion.p
@@ -156,7 +155,7 @@ const About: React.FC = () => {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.6 }}
                   >
-                    When I'm not coding, you'll find me exploring new technologies, contributing to 
+                    When I'm not coding, you'll find me exploring new technologies, contributing to
                     open-source projects, or sharing knowledge with the developer community.
                   </motion.p>
                 </div>
@@ -166,7 +165,7 @@ const About: React.FC = () => {
 
           {/* Skills Section */}
           <motion.div variants={itemVariants}>
-            <motion.h3 
+            <motion.h3
               className="font-space-grotesk text-3xl font-bold text-center mb-12 text-shadow"
               style={{ color: 'var(--text-primary)' }}
               whileHover={{ scale: 1.02 }}

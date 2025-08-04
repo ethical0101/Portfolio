@@ -31,14 +31,15 @@ const ParticleBackground: React.FC = () => {
       return {
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
-        vx: (Math.random() - 0.5) * 0.5,
-        vy: (Math.random() - 0.5) * 0.5,
-        size: Math.random() * 2 + 1,
-        opacity: Math.random() * 0.5 + 0.3,
+        vx: (Math.random() - 0.5) * 0.3, // Reduced speed for better performance
+        vy: (Math.random() - 0.5) * 0.3,
+        size: Math.random() * 1.5 + 0.5, // Smaller particles
+        opacity: Math.random() * 0.4 + 0.2, // Reduced opacity
       };
     };
 
-    for (let i = 0; i < 50; i++) {
+    // Reduced number of particles for better performance
+    for (let i = 0; i < 30; i++) {
       particles.push(createParticle());
     }
 
@@ -57,23 +58,23 @@ const ParticleBackground: React.FC = () => {
         ctx.fillStyle = `rgba(102, 126, 234, ${particle.opacity})`;
         ctx.fill();
 
-        // Connect nearby particles
-        particles.forEach((otherParticle, otherIndex) => {
-          if (index !== otherIndex) {
-            const dx = particle.x - otherParticle.x;
-            const dy = particle.y - otherParticle.y;
-            const distance = Math.sqrt(dx * dx + dy * dy);
+        // Connect nearby particles (optimized for performance)
+        for (let j = index + 1; j < particles.length; j++) {
+          const otherParticle = particles[j];
+          const dx = particle.x - otherParticle.x;
+          const dy = particle.y - otherParticle.y;
+          const distanceSquared = dx * dx + dy * dy; // Avoid sqrt for performance
 
-            if (distance < 100) {
-              ctx.beginPath();
-              ctx.moveTo(particle.x, particle.y);
-              ctx.lineTo(otherParticle.x, otherParticle.y);
-              ctx.strokeStyle = `rgba(102, 126, 234, ${0.1 * (1 - distance / 100)})`;
-              ctx.lineWidth = 0.5;
-              ctx.stroke();
-            }
+          if (distanceSquared < 6400) { // 80px squared instead of 100px
+            const distance = Math.sqrt(distanceSquared);
+            ctx.beginPath();
+            ctx.moveTo(particle.x, particle.y);
+            ctx.lineTo(otherParticle.x, otherParticle.y);
+            ctx.strokeStyle = `rgba(102, 126, 234, ${0.08 * (1 - distance / 80)})`; // Reduced opacity
+            ctx.lineWidth = 0.3; // Thinner lines
+            ctx.stroke();
           }
-        });
+        }
       });
 
       requestAnimationFrame(animate);

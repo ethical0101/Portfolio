@@ -13,8 +13,8 @@ const Projects: React.FC = () => {
   });
 
   const categories = ['All', 'Full Stack', 'Frontend'];
-  const filteredProjects = filter === 'All' 
-    ? projects 
+  const filteredProjects = filter === 'All'
+    ? projects
     : projects.filter(project => project.category === filter);
 
   const containerVariants = {
@@ -22,26 +22,25 @@ const Projects: React.FC = () => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.1,
+        staggerChildren: 0.05, // Faster stagger for smoother performance
       },
     },
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 50 },
+    hidden: { opacity: 0, y: 30 }, // Reduced movement for smoother animation
     visible: {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.8,
-        type: "spring",
-        stiffness: 100
+        duration: 0.4, // Faster animation
+        ease: "easeOut" // Simpler easing for better performance
       },
     },
   };
 
   return (
-    <section id="projects" className="py-20 relative" ref={ref}>
+    <section id="projects" className="py-20 relative gpu-accelerated will-change-transform" ref={ref}>
       <div className="container mx-auto px-6">
         <motion.div
           initial="hidden"
@@ -50,11 +49,11 @@ const Projects: React.FC = () => {
           className="max-w-7xl mx-auto"
         >
           {/* Title Section */}
-          <motion.div 
-            variants={itemVariants} 
+          <motion.div
+            variants={itemVariants}
             className="text-center mb-16"
           >
-            <motion.h2 
+            <motion.h2
               className="font-space-grotesk text-4xl md:text-5xl font-bold mb-6 text-shadow"
               style={{ color: 'var(--text-primary)' }}
               whileHover={{ scale: 1.05 }}
@@ -62,7 +61,7 @@ const Projects: React.FC = () => {
             >
               Featured Projects
             </motion.h2>
-            <motion.p 
+            <motion.p
               className="text-lg max-w-3xl mx-auto leading-relaxed"
               style={{ color: 'var(--text-secondary)' }}
               whileHover={{ scale: 1.02 }}
@@ -73,8 +72,8 @@ const Projects: React.FC = () => {
           </motion.div>
 
           {/* Filter Buttons */}
-          <motion.div 
-            variants={itemVariants} 
+          <motion.div
+            variants={itemVariants}
             className="flex justify-center mb-12"
           >
             <div className="glassmorphism p-2 rounded-full">
@@ -83,8 +82,8 @@ const Projects: React.FC = () => {
                   key={category}
                   onClick={() => setFilter(category)}
                   className={`px-6 py-2 rounded-full font-medium transition-all duration-200 magnetic ${
-                    filter === category 
-                      ? 'text-white' 
+                    filter === category
+                      ? 'text-white'
                       : ''
                   }`}
                   style={{
@@ -104,7 +103,7 @@ const Projects: React.FC = () => {
           </motion.div>
 
           {/* Projects Grid */}
-          <motion.div 
+          <motion.div
             layout
             className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
           >
@@ -122,7 +121,7 @@ const Projects: React.FC = () => {
                 >
                   <div className="glassmorphism rounded-2xl overflow-hidden hover-lift relative">
                     {/* Project Image */}
-                    <motion.div 
+                    <motion.div
                       className="relative overflow-hidden h-48"
                       whileHover={{ scale: 1.05 }}
                       transition={{ duration: 0.3 }}
@@ -133,14 +132,14 @@ const Projects: React.FC = () => {
                         className="w-full h-full object-cover transition-transform duration-500"
                         loading="lazy"
                       />
-                      
+
                       {/* Overlay Effects */}
                       <motion.div
                         className="absolute inset-0"
                         style={{
-                          background: `linear-gradient(135deg, 
-                            rgba(255,255,255,0.1) 0%, 
-                            transparent 50%, 
+                          background: `linear-gradient(135deg,
+                            rgba(255,255,255,0.1) 0%,
+                            transparent 50%,
                             rgba(0,0,0,0.2) 100%)`
                         }}
                       />
@@ -191,34 +190,34 @@ const Projects: React.FC = () => {
                         </span>
                       </motion.div>
                     </motion.div>
-                    
+
                     {/* Content */}
-                    <motion.div 
+                    <motion.div
                       className="p-6 relative z-10"
                       whileHover={{ scale: 1.02 }}
                       transition={{ duration: 0.3 }}
                     >
-                      <motion.h3 
+                      <motion.h3
                         className="font-space-grotesk text-xl font-bold mb-2"
                         style={{ color: 'var(--text-primary)' }}
                         whileHover={{ scale: 1.05 }}
                       >
                         {project.name}
                       </motion.h3>
-                      
+
                       <p className="text-sm mb-4 line-clamp-2" style={{ color: 'var(--text-secondary)' }}>
                         {project.description}
                       </p>
-                      
+
                       {/* Tech Stack */}
                       <div className="flex flex-wrap gap-2 mb-4">
                         {project.techStack.slice(0, 3).map((tech, techIndex) => (
                           <motion.span
                             key={tech}
                             className="text-xs px-2 py-1 rounded-full"
-                            style={{ 
-                              backgroundColor: 'var(--text-primary)', 
-                              color: 'var(--bg-primary)' 
+                            style={{
+                              backgroundColor: 'var(--text-primary)',
+                              color: 'var(--bg-primary)'
                             }}
                             whileHover={{ scale: 1.1 }}
                             transition={{ delay: techIndex * 0.05 }}
@@ -277,30 +276,30 @@ const Projects: React.FC = () => {
                   <X size={20} style={{ color: 'var(--text-primary)' }} />
                 </motion.button>
               </div>
-              
+
               <div className="p-8">
-                <motion.div 
+                <motion.div
                   className="flex items-center justify-between mb-4"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.1 }}
                 >
-                  <motion.h3 
+                  <motion.h3
                     className="font-space-grotesk text-3xl font-bold"
                     style={{ color: 'var(--text-primary)' }}
                     whileHover={{ scale: 1.02 }}
                   >
                     {selectedProject.name}
                   </motion.h3>
-                  <motion.span 
+                  <motion.span
                     className="glassmorphism px-3 py-1 rounded-full text-sm font-medium"
                     whileHover={{ scale: 1.05 }}
                   >
                     {selectedProject.category}
                   </motion.span>
                 </motion.div>
-                
-                <motion.p 
+
+                <motion.p
                   className="mb-6 leading-relaxed"
                   style={{ color: 'var(--text-secondary)' }}
                   initial={{ opacity: 0, y: 20 }}
@@ -309,8 +308,8 @@ const Projects: React.FC = () => {
                 >
                   {selectedProject.fullDescription}
                 </motion.p>
-                
-                <motion.div 
+
+                <motion.div
                   className="mb-6"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -321,15 +320,15 @@ const Projects: React.FC = () => {
                   </h4>
                   <ul className="space-y-2">
                     {selectedProject.features.map((feature, index) => (
-                      <motion.li 
-                        key={index} 
+                      <motion.li
+                        key={index}
                         className="flex items-start"
                         style={{ color: 'var(--text-secondary)' }}
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: 0.4 + index * 0.1 }}
                       >
-                        <motion.span 
+                        <motion.span
                           className="w-2 h-2 rounded-full mt-2 mr-3 flex-shrink-0"
                           style={{ backgroundColor: 'var(--text-primary)' }}
                           whileHover={{ scale: 1.5 }}
@@ -339,8 +338,8 @@ const Projects: React.FC = () => {
                     ))}
                   </ul>
                 </motion.div>
-                
-                <motion.div 
+
+                <motion.div
                   className="mb-8"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -354,9 +353,9 @@ const Projects: React.FC = () => {
                       <motion.span
                         key={tech}
                         className="px-3 py-1 rounded-full text-sm font-medium"
-                        style={{ 
-                          backgroundColor: 'var(--text-primary)', 
-                          color: 'var(--bg-primary)' 
+                        style={{
+                          backgroundColor: 'var(--text-primary)',
+                          color: 'var(--bg-primary)'
                         }}
                         initial={{ opacity: 0, scale: 0.8 }}
                         animate={{ opacity: 1, scale: 1 }}
@@ -368,8 +367,8 @@ const Projects: React.FC = () => {
                     ))}
                   </div>
                 </motion.div>
-                
-                <motion.div 
+
+                <motion.div
                   className="flex space-x-4"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}

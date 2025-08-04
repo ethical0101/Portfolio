@@ -85,7 +85,7 @@ export const projects: Project[] = [
     techStack: ["React", "Node.js", "MongoDB", "JWT", "Stripe", "AWS CloudFront", "Redis"],
     liveDemo: "https://netflix-clone-demo.com",
     github: `https://github.com/${githubUsername}/netflix-clone`,
-    image: "https://images.pexels.com/photos/7991579/pexels-photo-7991579.jpeg?auto=compress&cs=tinysrgb&w=800",
+    image: "https://images.pexels.com/photos/265685/pexels-photo-265685.jpeg?auto=compress&cs=tinysrgb&w=800",
     category: "Full Stack",
     features: [
       "User authentication with JWT and refresh tokens",
@@ -106,7 +106,7 @@ export const projects: Project[] = [
     techStack: ["React", "TypeScript", "TMDB API", "Firebase", "Tailwind CSS", "Chart.js"],
     liveDemo: "https://movieland-demo.com",
     github: `https://github.com/${githubUsername}/movieland`,
-    image: "https://images.pexels.com/photos/7991579/pexels-photo-7991579.jpeg?auto=compress&cs=tinysrgb&w=800",
+    image: "https://images.pexels.com/photos/1200450/pexels-photo-1200450.jpeg?auto=compress&cs=tinysrgb&w=800",
     category: "Frontend",
     features: [
       "Advanced movie search with filters and sorting",

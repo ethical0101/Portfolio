@@ -14,7 +14,7 @@ const Hero: React.FC = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentText((prev) => (prev + 1) % texts.length);
-    }, 3000);
+    }, 4000); // Increased interval for better performance
     return () => clearInterval(interval);
   }, [texts.length]);
 
@@ -36,7 +36,7 @@ const Hero: React.FC = () => {
   };
 
   return (
-    <section id="home" className="relative flex items-center justify-center min-h-screen overflow-hidden">
+    <section id="home" className="relative flex items-center justify-center min-h-screen overflow-hidden gpu-accelerated will-change-transform">
       <div className="container relative z-10 px-6 mx-auto text-center">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
@@ -48,15 +48,15 @@ const Hero: React.FC = () => {
           <motion.div
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            transition={{ delay: 0.2, duration: 1, type: "spring", stiffness: 100 }}
-            className="flex justify-center mb-8"
+            transition={{ delay: 0.2, duration: 0.6, type: "spring", stiffness: 120 }} // Faster animation
+            className="flex justify-center mb-8 will-change-transform"
           >
             <motion.div
-              className="relative"
+              className="relative gpu-accelerated"
               whileHover={{ scale: 1.05 }}
-              transition={{ duration: 0.3 }}
+              transition={{ duration: 0.2 }} // Faster hover
             >
-              <div className="profile-glow w-32 h-32 sm:w-36 sm:h-36 md:w-40 md:h-40 lg:w-44 lg:h-44 rounded-full overflow-hidden glassmorphism p-0.5 sm:p-1 shadow-lg sm:shadow-2xl">
+              <div className="profile-glow w-32 h-32 sm:w-36 sm:h-36 md:w-40 md:h-40 lg:w-44 lg:h-44 rounded-full overflow-hidden glassmorphism p-0.5 sm:p-1 shadow-lg sm:shadow-2xl will-change-transform">
                 <img
                   src="/images/profile-2.jpg"
                   alt="Kommi Druthendra"
@@ -76,8 +76,8 @@ const Hero: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.5, type: "spring" }}
-            className="mb-6"
+            transition={{ duration: 0.4 }} // Simplified animation for better performance
+            className="mb-6 will-change-opacity"
           >
             <motion.h1
               className="text-4xl font-bold font-space-grotesk md:text-6xl lg:text-7xl text-shadow"
